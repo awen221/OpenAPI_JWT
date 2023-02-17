@@ -2,11 +2,10 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
-
+using Microsoft.IdentityModel.Tokens;
 
 using OpenAPI_JWT.Core;
 using OpenAPI_JWT.Core.Data;
-using Microsoft.IdentityModel.Tokens;
 
 namespace OpenAPI_JWT.Controllers
 {
@@ -15,7 +14,9 @@ namespace OpenAPI_JWT.Controllers
     /// </summary>
     public class Authentication : Controller, Authentication_Interface
     {
+
         private readonly AuthManagerInterface _jwtAuthManager;
+
         /// <summary>
         /// AuthenticationController
         /// </summary>
@@ -31,12 +32,14 @@ namespace OpenAPI_JWT.Controllers
         /// 設定是否檢查空白的密碼為錯誤，有的系統允許使用空白的密碼
         /// </summary>
         virtual protected bool CheckPasswordEmpty => false;
+
         /// <summary>
         /// GetRole
         /// </summary>
         /// <param name="userName"></param>
         /// <returns></returns>
         virtual protected string GetRole(string userName) => "User";
+
         /// <summary>
         /// 處理Authentication邏輯，可由子類別覆寫
         /// </summary>
@@ -57,6 +60,7 @@ namespace OpenAPI_JWT.Controllers
 
             throw new Exception("AuthenticationCheck Fail");
         }
+
         /// <summary>
         /// Process_AuthenticationCheckResult
         /// </summary>
@@ -89,8 +93,9 @@ namespace OpenAPI_JWT.Controllers
                 RefreshToken = jwtResult.RefreshToken?.TokenString ?? string.Empty,
             });
         }
+
         /// <summary>
-        /// 
+        /// GetUser
         /// </summary>
         /// <returns></returns>
         virtual protected User GetUser()
@@ -148,6 +153,7 @@ namespace OpenAPI_JWT.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -170,6 +176,7 @@ namespace OpenAPI_JWT.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         /// <summary>
         /// RefreshToken
         /// </summary>
@@ -204,6 +211,7 @@ namespace OpenAPI_JWT.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         /// <summary>
         /// Logout
         /// </summary>
@@ -226,5 +234,6 @@ namespace OpenAPI_JWT.Controllers
         }
 
         #endregion
+
     }
 }

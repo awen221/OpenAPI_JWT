@@ -1,10 +1,10 @@
 ﻿using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 using OpenAPI_JWT.Core;
 using OpenAPI_JWT.Core.Data;
@@ -14,13 +14,8 @@ namespace OpenAPI_JWT
     /// <summary>
     /// StartUp
     /// </summary>
-    public class StartUp : global::OpenAPI.StartUp
+    abstract public class StartUp : OpenAPI.StartUp
     {
-        protected override string Title => throw new NotImplementedException();
-
-        protected override Version Version => throw new NotImplementedException();
-
-        protected override string Description => throw new NotImplementedException();
 
         /// <summary>
         /// WebApplicationBuilder_Process
@@ -28,6 +23,8 @@ namespace OpenAPI_JWT
         /// <param name="builder"></param>
         protected override void WebApplicationBuilder_Process(WebApplicationBuilder builder)
         {
+            base.WebApplicationBuilder_Process(builder);
+
             #region ConfigureKestrel作用待確認
             //builder.WebHost.ConfigureKestrel(serverOptions =>
             //{
@@ -105,12 +102,15 @@ namespace OpenAPI_JWT
             #endregion
 
         }
+
         /// <summary>
         /// WebApplication_Process
         /// </summary>
         /// <param name="app"></param>
         protected override void WebApplication_Process(WebApplication app)
         {
+            base.WebApplication_Process(app);
+
             //if (app.Environment.IsDevelopment())
             //{
             //    app.UseDeveloperExceptionPage();
@@ -136,5 +136,6 @@ namespace OpenAPI_JWT
             });
             #endregion
         }
+
     }
 }
