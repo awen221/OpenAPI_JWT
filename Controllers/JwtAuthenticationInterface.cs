@@ -3,22 +3,17 @@
 namespace OpenAPI_JWT.Controllers
 {
     /// <summary>
-    /// Authentication_Interface
+    /// JwtAuthenticationInterface
     /// </summary>
-    public interface Authentication_Interface
+    public interface JwtAuthenticationInterface
     {
         /// <summary>
         /// Login
         /// </summary>
-        /// <param name="UserName"></param>
-        /// <param name="Password"></param>
+        /// <param name="user"></param>
+        /// <param name="password"></param>
         /// <returns></returns>
-        IActionResult Login(string UserName, string Password);
-        /// <summary>
-        /// GetCurrentUser
-        /// </summary>
-        /// <returns></returns>
-        IActionResult GetCurrentUser();
+        IActionResult Login(string user, string password);
         /// <summary>
         /// 
         /// </summary>
@@ -30,5 +25,11 @@ namespace OpenAPI_JWT.Controllers
         /// </summary>
         /// <returns></returns>
         IActionResult Logout();
+
+        ///// <summary>
+        ///// GetCurrentUser
+        ///// </summary>
+        ///// <returns></returns>
+        //IActionResult GetCurrentUser();
     }
 }
