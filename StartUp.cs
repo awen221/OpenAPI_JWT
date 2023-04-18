@@ -22,11 +22,10 @@ namespace OpenAPI_JWT
         /// <param name="builder"></param>
         protected override void WebApplicationBuilder_Process(WebApplicationBuilder builder)
         {
+
             base.WebApplicationBuilder_Process(builder);
 
             var services = builder.Services;
-
-
             #region JWT
 
             services.AddSwaggerGen(c =>
@@ -103,24 +102,13 @@ namespace OpenAPI_JWT
         {
 
             base.WebApplication_Process(app);
-
-            ///如果有對 app.UseRouting() 和 app.UseEndpoints(...) 的調用，
-            ///則對 app.UseAuthorization() & app.UseAuthentication() 的調用必須在它們之間進行。
-            ///app.UseAuthentication()需在app.UseAuthorization() 之前
-            #region UseRouting...UseEndpoints
-
-            app.UseRouting();
-
-            #region Cors設定(前端網頁跨網域時須作此設定)
+            //Cors設定(前端網頁跨網域時須作此設定)
             app.UseCors("AllowAll");
-            #endregion
 
+            ///app.UseAuthentication()需在app.UseAuthorization() 之前
+            ///app.UseAuthentication()需在app.UseRouting() 之後
+            app.UseRouting();
             app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-
-            #endregion
 
         }
 

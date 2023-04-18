@@ -15,13 +15,11 @@ namespace OpenAPI_JWT.Controllers
     {
 
         private JwtAuthenticationManagerInterface jwtAuthManager { set; get; }
-        private static string ClaimKey_User => "user";
-
 
         /// <summary>
         /// ClaimsPrincipal_User
         /// </summary>
-        protected string ClaimsPrincipal_User => User.FindFirst(ClaimKey_User)?.Value ?? string.Empty;
+        protected string ClaimsPrincipal_User => User.FindFirst(Claims.user)?.Value ?? string.Empty;
         /// <summary>
         /// GetJwtActionResult
         /// </summary>
@@ -97,7 +95,7 @@ namespace OpenAPI_JWT.Controllers
                 var succeeded = GetAuthentication(user, password);
                 if (!succeeded) throw new Exception("Authentication Fail!");
                 static IEnumerable<Claim> GenerateClaims(string user)
-                    => new List<Claim> { new Claim(ClaimKey_User, user), };
+                    => new List<Claim> { new Claim(Claims.user, user), };
                 var claims = GenerateClaims(user);
                 claims = GetAuthorization(user,claims);
 
