@@ -20,6 +20,7 @@ namespace OpenAPI_JWT.Controllers
         /// ClaimsPrincipal_User
         /// </summary>
         protected string ClaimsPrincipal_User => User.FindFirst(Claims.user)?.Value ?? string.Empty;
+
         /// <summary>
         /// GetJwtActionResult
         /// </summary>
@@ -36,18 +37,21 @@ namespace OpenAPI_JWT.Controllers
                 RefreshToken = refreshToken,
             });
         }
+
         /// <summary>
         /// CheckPasswordEmpty
         /// 設定是否檢查空白的密碼為錯誤，有的系統允許使用空白的密碼
         /// </summary>
         virtual protected bool CheckPasswordEmpty => false;
+
         /// <summary>
         /// 取得認證，可由子類別覆寫
         /// </summary>
         /// <param name="user"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        virtual protected bool GetAuthentication(string user, string password) => (user is "user");
+        virtual protected void GetAuthentication(string user, string password) { }
+
         /// <summary>
         /// 取得授權，可由子類別覆寫
         /// </summary>
@@ -63,6 +67,7 @@ namespace OpenAPI_JWT.Controllers
         {
             this.jwtAuthManager = _jwtAuthManager;
         }
+
         /// <summary>
         /// Login
         /// </summary>
@@ -82,25 +87,21 @@ namespace OpenAPI_JWT.Controllers
                     return true;
                 }
                 if (check_para_is_empty(user))
-                {
                     throw new Exception("user is empty");
-                }
+
                 if (CheckPasswordEmpty)
-                {
                     if (check_para_is_empty(password))
-                    {
                         throw new Exception("password is empty");
-                    }
-                }
-                var succeeded = GetAuthentication(user, password);
-                if (!succeeded) throw new Exception("Authentication Fail!");
+
+                GetAuthentication(user, password);
+
                 static IEnumerable<Claim> GenerateClaims(string user)
                     => new List<Claim> { new Claim(Claims.user, user), };
                 var claims = GenerateClaims(user);
+
                 claims = GetAuthorization(user,claims);
 
                 var now = DateTime.Now;
-
                 return GetJwtActionResult(user, claims, now);
             }
             catch (Exception ex)
@@ -108,6 +109,7 @@ namespace OpenAPI_JWT.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         /// <summary>
         /// RefreshToken
         /// </summary>
@@ -136,6 +138,7 @@ namespace OpenAPI_JWT.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         /// <summary>
         /// Logout
         /// </summary>
