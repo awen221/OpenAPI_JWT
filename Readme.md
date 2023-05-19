@@ -22,26 +22,43 @@
 
 1. 覆寫Program如下：
     ```
-    new StartUp().Main(args);
+    new Open_API_JWT.StartUp().Main(args);
 
-    /// <summary>
-    /// StartUp
-    /// </summary>
-    public class StartUp : OpenAPI_JWT.StartUp
+    namespace Open_API_JWT
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        protected override string Title => "OpenAPI_JWT";
-        /// <summary>
-        /// 
-        /// </summary>
-        protected override Version Version => new("1.0.0.0");
-        /// <summary>
-        /// 
-        /// </summary>
-        protected override string Description => "OpenAPI_JWT Description";
+        using Microsoft.OpenApi.Models;
+        using Controllers;
+
+        /// <inheritdoc/>
+        public class StartUp : OpenAPI_JWT.StartUp
+        {
+            /// <inheritdoc/>
+            protected override Dictionary<string, OpenApiInfo> GetSwaggerDocs()
+            {
+                var dict = new Dictionary<string, OpenApiInfo>()
+                {
+                    {
+                        "Open_API_JWT",
+                        new OpenApiInfo(){
+                            Title="Open_API_JWT",
+                            Version="1.0.0.0"
+                        }
+                    }
+                };
+
+                return dict;
+            }
+
+            /// <inheritdoc/>
+            protected override void WebApplicationBuilder_Process(WebApplicationBuilder builder) =>
+                base.WebApplicationBuilder_Process(builder);
+
+            /// <inheritdoc/>
+            protected override void WebApplication_Process(WebApplication app) =>
+                base.WebApplication_Process(app);
+        }
     }
+
     ```
 1. Controller範例：
     ```
