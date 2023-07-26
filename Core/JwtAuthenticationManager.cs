@@ -120,11 +120,9 @@ namespace OpenAPI_JWT.Core
             return (accessToken, refreshToken);
         }
 
-        
+        SecurityTokenException SecurityTokenException_InvalidToken => new("InvalidToken");
         public ClaimsPrincipal RefreshToken_CheckAccessToken(string? accessToken)
         {
-            SecurityTokenException SecurityTokenException_InvalidToken = new("InvalidToken");
-
             if (string.IsNullOrWhiteSpace(accessToken)) throw SecurityTokenException_InvalidToken;
 
             var claimsPrincipal = new JwtSecurityTokenHandler().ValidateToken(accessToken, new TokenValidationParameters
@@ -150,8 +148,6 @@ namespace OpenAPI_JWT.Core
         }
         public void RefreshToken_CheckRefreshToken(string refreshToken, string user, DateTime now)
         {
-            SecurityTokenException SecurityTokenException_InvalidToken = new("InvalidToken");
-
             if (!_usersRefreshTokens.TryGetValue(refreshToken, out var existingRefreshToken))
                 throw SecurityTokenException_InvalidToken;
             if (existingRefreshToken.User != user || existingRefreshToken.ExpireAt < now)

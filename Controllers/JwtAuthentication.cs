@@ -95,9 +95,11 @@ namespace OpenAPI_JWT.Controllers
 
                 GetAuthentication(user, password);
 
+                IEnumerable<Claim> claims;
+
                 static IEnumerable<Claim> GenerateClaims(string user)
                     => new List<Claim> { new Claim(Claims.user, user), };
-                var claims = GenerateClaims(user);
+                claims = GenerateClaims(user);
 
                 claims = GetAuthorization(user,claims);
 
