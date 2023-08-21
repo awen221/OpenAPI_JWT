@@ -8,12 +8,19 @@ namespace OpenAPI_JWT.Controllers
     public interface JwtAuthenticationInterface
     {
         /// <summary>
+        /// LoginPara
+        /// </summary>
+        public struct LoginPara
+        {
+            public string user { set; get; }
+            public string password { set; get; }
+        }
+        /// <summary>
         /// Login
         /// </summary>
-        /// <param name="user"></param>
-        /// <param name="password"></param>
+        /// <param name="loginPara"></param>
         /// <returns></returns>
-        IActionResult Login(string user, string password);
+        IActionResult Login(LoginPara loginPara);
         /// <summary>
         /// 
         /// </summary>
@@ -25,11 +32,5 @@ namespace OpenAPI_JWT.Controllers
         /// </summary>
         /// <returns></returns>
         IActionResult Logout();
-
-        ///// <summary>
-        ///// GetCurrentUser
-        ///// </summary>
-        ///// <returns></returns>
-        //IActionResult GetCurrentUser();
     }
 }

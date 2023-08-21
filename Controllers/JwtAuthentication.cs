@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.IdentityModel.Tokens;
 
-using OpenAPI_JWT.Core;
-
 namespace OpenAPI_JWT.Controllers
 {
+    using Core;
+    using LoginPara = JwtAuthenticationInterface.LoginPara;
 
     /// <summary>
     /// JwtAuthentication 
@@ -71,13 +71,15 @@ namespace OpenAPI_JWT.Controllers
         /// <summary>
         /// Login
         /// </summary>
-        /// <param name="user"></param>
-        /// <param name="password"></param>
+        /// <param name="loginPara"></param>
         /// <returns></returns>
-        virtual public IActionResult Login(string user, string password)
+        virtual public IActionResult Login([FromBody] LoginPara loginPara)
         {
             try
             {
+                var user = loginPara.user;
+                var password=loginPara.password;
+
                 static bool check_para_is_empty(string? para)
                 {
                     if (!string.IsNullOrEmpty(para))
