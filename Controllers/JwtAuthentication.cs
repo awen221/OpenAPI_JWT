@@ -6,7 +6,6 @@ using Microsoft.IdentityModel.Tokens;
 namespace OpenAPI_JWT.Controllers
 {
     using Core;
-    using LoginPara = JwtAuthenticationInterface.LoginPara;
 
     /// <summary>
     /// JwtAuthentication 
@@ -71,15 +70,13 @@ namespace OpenAPI_JWT.Controllers
         /// <summary>
         /// Login
         /// </summary>
-        /// <param name="loginPara"></param>
+        /// <param name="user"></param>
+        /// <param name="password"></param>
         /// <returns></returns>
-        virtual public IActionResult Login([FromBody] LoginPara loginPara)
+        virtual public IActionResult Login(string user, string password)
         {
             try
             {
-                var user = loginPara.user;
-                var password=loginPara.password;
-
                 static bool check_para_is_empty(string? para)
                 {
                     if (!string.IsNullOrEmpty(para))
