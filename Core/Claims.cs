@@ -1,7 +1,7 @@
 ﻿namespace OpenAPI_JWT.Core
 {
-    class Claims
+    public class Claims
     {
-        static public string user => "user";
+        static public string user => nameof(user);
     }
 }
