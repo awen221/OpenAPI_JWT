@@ -120,7 +120,7 @@ namespace OpenAPI_JWT.Core
             return (accessToken, refreshToken);
         }
 
-        SecurityTokenException SecurityTokenException_InvalidToken => new("InvalidToken");
+        static SecurityTokenException SecurityTokenException_InvalidToken => new("InvalidToken");
         public ClaimsPrincipal RefreshToken_CheckAccessToken(string? accessToken)
         {
             if (string.IsNullOrWhiteSpace(accessToken)) throw SecurityTokenException_InvalidToken;
